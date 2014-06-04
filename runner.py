@@ -68,6 +68,4 @@ def create_archive_ymd(archive_dir):
     if not os.path.exists(archive_ymd_path):
         os.makedirs(archive_ymd_path)
 
-backup()
-
 # vim: filetype=python
