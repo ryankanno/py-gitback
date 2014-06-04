@@ -7,6 +7,7 @@ import subprocess
 
 from py_gitback.providers import get_provider
 from py_gitback.providers import Provider
+from py_gitback.utilities import ensure_dir
 
 # get provider
 # find config
@@ -27,8 +28,8 @@ def backup(repos_to_backup=None):
     username = config.get('GitHub', 'username')
     password = config.get('GitHub', 'password')
     provider = get_provider(Provider.GitHub, username=username, password=password)
-    create_workspace(os.path.join(cwd, '_workspace'))
-    create_archive(os.path.join(cwd, '_archive'))
+    ensure_dir(os.path.join(cwd, '_workspace'))
+    ensure_dir(os.path.join(cwd, '_archive'))
     create_archive_ymd(os.path.join(cwd, '_archive'))
 
     repo = provider.repos[0]
@@ -36,8 +37,8 @@ def backup(repos_to_backup=None):
     workspace_dir_to_create = os.path.join(cwd, '_workspace', repo.name)
     bundle_dir_to_create = os.path.join(cwd, '_archive', repo.name)
 
-    create_dir(workspace_dir_to_create)
-    create_dir(bundle_dir_to_create)
+    ensure_dir(workspace_dir_to_create)
+    ensure_dir(bundle_dir_to_create)
 
     bundle_file_to_create = os.path.join(bundle_dir_to_create, "{}.bundle".format(repo.name))
 
@@ -50,10 +51,6 @@ def get_config(dir_path):
     config = ConfigParser.SafeConfigParser()
     config.read([dir_path])
     return config
-
-
-create_workspace = lambda x: create_dir(x)
-create_archive = lambda x: create_dir(x)
 
 
 def create_dir(dir):
