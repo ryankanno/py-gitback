@@ -45,7 +45,7 @@ with open(os.path.join(here, 'py_gitback/__init__.py'), 'r') as f:
 
 # Requires
 
-requires = ['github3.py', 'enum34']
+requires = ['github3.py', 'enum34', 'py-utilities==0.0.2']
 tests_require = ['flake8', 'mock', 'nose', 'nosexcover']
 
 with open(os.path.join(here, 'README.rst')) as f:
