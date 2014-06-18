@@ -64,6 +64,6 @@ def get_config(dir_path):
     config.read([dir_path])
     return config
 
-backup()
+# backup()
 
 # vim: filetype=python

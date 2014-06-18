@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import os
-import tarfile
 
 
 def get_abs_date_dir(root_dir, date):
