@@ -9,7 +9,7 @@ class GitHubProvider(GitProvider):
     ProviderName = "GitHub"
 
     def __init__(self, username, password, *args, **kwargs):
-        super(GitHubProvider, self).__init__()
+        super(GitHubProvider, self).__init__(*args, **kwargs)
         self._username = username
         self._password = password
         self._client = login(self._username, self._password)
