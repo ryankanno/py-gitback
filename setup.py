@@ -9,7 +9,10 @@ try:
 except ImportError:
     from distutils.core import setup
 
-packages = []
+packages = [
+    'py_gitback',
+    'py_gitback.providers',
+]
 
 here = os.path.dirname(os.path.realpath(__file__))
 
@@ -55,23 +58,30 @@ with open(os.path.join(here, 'CHANGES')) as f:
     changes = f.read()
 
 classifiers = [
+    'Development Status :: 3 - Alpha',
+    'Intended Audience :: Developers',
+    'Programming Language :: Python',
+    'License :: OSI Approved :: MIT License',
+    'Topic :: Utilities'
 ]
 
 setup(
     name='py-gitback',
     version=meta['VERSION'],
-    description='',
+    description='Script to help back up git repositories',
     long_description=readme + '\n\n' + changes,
     author=meta['author'],
     author_email=meta['email'],
-    url="",
+    url="https://github.com/ryankanno/py-gitback",
     packages=packages,
     package_data={'': ['LICENSE']},
     package_dir={'py_gitback': 'py_gitback'},
+    scripts=['bin/py-gitback.py'],
     install_requires=requires,
     license=meta['license'],
     tests_require=tests_require,
     classifiers=classifiers,
+    setup_requires=['nose>=1.3']
 )
 
 # vim: filetype=python
