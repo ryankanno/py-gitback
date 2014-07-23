@@ -12,10 +12,10 @@ class GitProvider(object):
 
     @abc.abstractproperty
     def name(self):
-        raise NotImplementedError
+        raise NotImplementedError  # pragma: no cover
 
     @abc.abstractproperty
     def repos(self):
-        raise NotImplementedError
+        raise NotImplementedError  # pragma: no cover
 
 # vim: filetype=python
