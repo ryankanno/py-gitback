@@ -19,15 +19,24 @@ LOG_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 
 
 def init_argparser():
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = argparse.ArgumentParser(
+        description=__doc__,
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
+
     parser.add_argument('-c', '--config', action='store',
-                        help='template configuration data', required=True)
-    parser.add_argument('-w', '--working', action='store',
-                        help='working directory', required=True)
+                        help='backup config file',
+                        default=os.path.join(os.getcwd(), '.py-gitback.conf'))
+    parser.add_argument('-s', '--staging', action='store',
+                        help='staging directory',
+                        default=os.path.join(os.getcwd(), '_staging'))
     parser.add_argument('-a', '--archive', action='store',
-                        help='archive directory', required=True)
-    parser.add_argument('-v', '--verbose', action='store_true',
-                        help='increase chattiness of script')
+                        help='archive directory',
+                        default=os.path.join(os.getcwd(), '_archive'))
+    parser.add_argument('-r', '--repo', action='append',
+                        dest='repos',
+                        help='repo to backup',
+                        default=[])
     return parser
 
 
@@ -37,56 +46,56 @@ def init_argparser():
 # - current directory
 # - home directory
 # get repos
-# if workspace directory doesn't exist, create it either from config or current dir
+# if staging directory doesn't exist, create it either from config or current dir
 # if archive directory doesn't exist, create it either from config or current dir
-# clone repo to _workspace
+# clone repo to _staging
 # run git bundle with the timestamp, from config or current dir
 # should be in archive/date/reponame-date (maybe no date), from config
-def backup(repos_to_backup=None):
+def backup(args):
 
-    cwd = os.getcwd()
-    config_path = os.path.join(cwd, '.py-gitback.config')
-    provider = get_provider_from_config(config_path)
+    if args.repos:
 
-    workspace_dir = os.path.join(cwd, '_workspace')
-    archive_dir = os.path.join(cwd, '_archive')
+        provider = get_provider_from_config(args.config)
 
-    today = datetime.datetime.now().date()
-    abs_date_dir = get_abs_date_dir(archive_dir, today)
+        staging_dir = args.staging
+        archive_dir = args.archive
 
-    mkdir_p(workspace_dir)
-    mkdir_p(archive_dir)
-    mkdir_p(abs_date_dir)
+        today = datetime.datetime.now().date()
+        abs_date_dir = get_abs_date_dir(archive_dir, today)
 
-    repo = provider.repos[0]
+        mkdir_p(staging_dir)
+        mkdir_p(archive_dir)
+        mkdir_p(abs_date_dir)
 
-    repo_dir_to_create = os.path.join(workspace_dir, repo.name)
-    bundle_dir_to_create = os.path.join(abs_date_dir, repo.name)
+        repo = provider.repos[0]
 
-    mkdir_p(repo_dir_to_create)
-    mkdir_p(bundle_dir_to_create)
+        repo_dir_to_create = os.path.join(staging_dir, repo.name)
+        bundle_dir_to_create = os.path.join(abs_date_dir, repo.name)
 
-    bundle_file_to_create = os.path.join(bundle_dir_to_create,
-                                         "{}.bundle".format(repo.name))
+        mkdir_p(repo_dir_to_create)
+        mkdir_p(bundle_dir_to_create)
 
-    subprocess.check_call(
-        ["git",
-         "clone",
-         "--no-hardlinks",
-         "--mirror",
-         repo.clone_url,
-         repo_dir_to_create])
+        bundle_file_to_create = os.path.join(bundle_dir_to_create,
+                                             "{}.bundle".format(repo.name))
 
-    os.chdir(repo_dir_to_create)
+        subprocess.check_call(
+            ["git",
+             "clone",
+             "--no-hardlinks",
+             "--mirror",
+             repo.clone_url,
+             repo_dir_to_create])
 
-    subprocess.check_call(
-        ["git",
-         "bundle",
-         "create",
-         bundle_file_to_create,
-         "--all"])
+        os.chdir(repo_dir_to_create)
 
-    create_tarball([bundle_dir_to_create], repo.name, abs_date_dir)
+        subprocess.check_call(
+            ["git",
+             "bundle",
+             "create",
+             bundle_file_to_create,
+             "--all"])
+
+        create_tarball([bundle_dir_to_create], repo.name, abs_date_dir)
 
 
 def main(argv=None):
