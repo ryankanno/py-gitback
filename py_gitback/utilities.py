@@ -24,4 +24,12 @@ def get_provider_from_config(config_path):
     password = config.get('GitHub', 'password')
     return get_provider(Provider.GitHub, username=username, password=password)
 
+
+def get_repo_objs_from_provider(provider, repos):
+    repo_objs = []
+    for repo in provider.repos:
+        if repo.name.lower() in repos:
+            repo_objs.append(repo)
+    return repo_objs
+
 # vim: filetype=python
