@@ -11,6 +11,7 @@ from py_gitback.utilities import get_provider_from_config
 from py_gitback.utilities import get_repo_objs_from_provider
 from py_utilities.compression.tar_utilities import create_tarball
 from py_utilities.fs.fs_utilities import mkdir_p
+from py_utilities.fs.fs_utilities import rm_rf
 
 import subprocess
 import sys
@@ -87,6 +88,9 @@ def backup(args):
                      "--all"])
 
                 create_tarball([bundle_dir_to_create], repo.name, abs_date_dir)
+
+                # cleanup
+                rm_rf(bundle_dir_to_create)
     else:
         logging.error("Please provide repos to backup.")
 
