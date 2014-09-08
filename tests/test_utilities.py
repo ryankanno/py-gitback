@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from ConfigParser import NoSectionError
 import datetime
 from nose.tools import ok_
+from nose.tools import raises
 import os
 from py_gitback.utilities import get_abs_date_dir
+from py_gitback.utilities import get_config
 import shutil
 import tempfile
 import unittest
@@ -14,11 +17,23 @@ class TestUtilities(unittest.TestCase):
 
     def setUp(self):
         self.temp_dir = tempfile.gettempdir()
+        self.cwd = os.path.dirname(os.path.realpath(__file__))
+        self.config_file = os.path.join(self.cwd, '.', 'data', 'foo.config')
 
     def tearDown(self):
         tmp_foo = os.path.join(self.temp_dir, 'foobar2')
         if os.path.exists(tmp_foo):
             shutil.rmtree(tmp_foo)
+
+    def test_get_config_with_valid_config_returns_valid_data(self):
+        config = get_config(self.config_file)
+        ok_(config.get('Default', 'Foo') == 'Bar')
+
+    @raises(NoSectionError)
+    def test_get_config_with_invalid_config_raises_error(self):
+        bad_config_file = os.path.join(self.cwd, '.', 'data', 'foo.configadsf')
+        config = get_config(bad_config_file)
+        config.get('Default', 'Foo')
 
     def test_get_abs_date_dir(self):
         date = datetime.date(2012, 1, 11)
