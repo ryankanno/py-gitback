@@ -8,6 +8,7 @@ include requirements.txt
 include setup.py
 recursive-include py_gitback *.py
 recursive-include tests *.py
+recursive-include tests *.config
 recursive-include docs *
 prune *.pyc
 prune .git
