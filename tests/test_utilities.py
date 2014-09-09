@@ -6,8 +6,10 @@ import datetime
 from nose.tools import ok_
 from nose.tools import raises
 import os
+from py_gitback.providers import GitHubProvider
 from py_gitback.utilities import get_abs_date_dir
 from py_gitback.utilities import get_config
+from py_gitback.utilities import get_provider_from_config
 import shutil
 import tempfile
 import unittest
@@ -40,5 +42,14 @@ class TestUtilities(unittest.TestCase):
         tmp_ensure_date_dir = os.path.join(self.temp_dir, 'ensure_date')
         abs_date_dir = get_abs_date_dir(tmp_ensure_date_dir, date)
         ok_('ensure_date/2012/01/11' in abs_date_dir)
+
+    def test_get_provider_from_config(self):
+        config_file = os.path.join(self.cwd, '.', 'data', 'py-gitback.config')
+        provider = get_provider_from_config(config_file)
+        ok_(provider.name == GitHubProvider.ProviderName)
+        ok_(GitHubProvider.ProviderName == "GitHub")
+        ok_(provider._username == "foo")
+        ok_(provider._password == "bar")
+
 
 # vim: filetype=python
