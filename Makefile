@@ -10,7 +10,7 @@ nosetests:
 	@$(NOSETESTS) --with-doctest
 
 nosetests.coverage:
-	@$(NOSETESTS) --with-xcoverage --cover-package=py_gitback --cover-tests --cover-erase --with-doctest
+	@$(NOSETESTS) --with-xcoverage --cover-package=py_gitback --cover-tests --cover-erase --with-doctest --nocapture
 
 nosetests.profile:
 	@$(NOSETESTS) --with-doctest --with-profile
