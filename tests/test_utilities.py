@@ -20,7 +20,7 @@ class TestUtilities(unittest.TestCase):
     def setUp(self):
         self.temp_dir = tempfile.gettempdir()
         self.cwd = os.path.dirname(os.path.realpath(__file__))
-        self.config_file = os.path.join(self.cwd, '.', 'data', 'foo.config')
+        self.config_file = os.path.join(self.cwd, 'data', 'foo.config')
 
     def tearDown(self):
         tmp_foo = os.path.join(self.temp_dir, 'foobar2')
@@ -35,7 +35,7 @@ class TestUtilities(unittest.TestCase):
 
     @raises(NoSectionError)
     def test_get_config_with_invalid_config_raises_error(self):
-        bad_config_file = os.path.join(self.cwd, '.', 'data', 'foo.configadsf')
+        bad_config_file = os.path.join(self.cwd, 'data', 'foo.configadsf')
         config = get_config(bad_config_file)
         config.get('Default', 'Foo')
 
@@ -46,7 +46,7 @@ class TestUtilities(unittest.TestCase):
         ok_('ensure_date/2012/01/11' in abs_date_dir)
 
     def test_get_provider_from_config(self):
-        config_file = os.path.join(self.cwd, '.', 'data', 'py-gitback.config')
+        config_file = os.path.join(self.cwd, 'data', 'py-gitback.config')
         provider = get_provider_from_config(config_file)
         ok_(provider.name == GitHubProvider.ProviderName)
         ok_(GitHubProvider.ProviderName == "GitHub")
