@@ -74,10 +74,7 @@ setup(
     author_email=meta['email'],
     url="https://github.com/ryankanno/py-gitback",
     packages=packages,
-    package_data={
-        '': ['LICENSE'],
-        '': ['tests/data/*.config']
-    },
+    package_data={'': ['LICENSE']},
     package_dir={'py_gitback': 'py_gitback'},
     scripts=['bin/py-gitback.py'],
     install_requires=requires,
