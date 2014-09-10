@@ -28,11 +28,6 @@ class TestUtilities(unittest.TestCase):
             shutil.rmtree(tmp_foo)
 
     def test_get_config_with_valid_config_returns_valid_data(self):
-        print self.config_file
-        print os.path.exists(self.config_file)
-        print os.listdir(self.cwd)
-        print os.listdir(os.path.join(self.cwd, 'data'))
-        print os.listdir(os.path.join(self.cwd, '..'))
         config = get_config(self.config_file)
         ok_(config.get('Default', 'Foo') == 'Bar')
 
