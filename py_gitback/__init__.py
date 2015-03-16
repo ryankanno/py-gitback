@@ -6,7 +6,7 @@ from collections import namedtuple
 version_info = namedtuple('version_info', ('major', 'minor', 'patch'))
 
 
-VERSION = version_info(0, 0, 1)
+VERSION = version_info(0, 0, 2)
 
 
 __title__ = 'py_gitback'

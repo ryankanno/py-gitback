@@ -11,8 +11,8 @@ py-gitback
 basic usage
 ===========
 
-Create a config file that resembles .py-gitback.conf.example
-
+1. Create a config file that resembles `.py-gitback.conf.example <https://github.com/ryankanno/py-gitback/blob/master/.py-gitback.conf.example>`_
+2. Run the following command
 .. code:: bash
 
     py-gitback.py -r py-gitback
@@ -20,7 +20,7 @@ Create a config file that resembles .py-gitback.conf.example
 todo
 ====
 
-- logging
+- increase logging
 
 license
 -------
