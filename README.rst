@@ -13,6 +13,7 @@ basic usage
 
 1. Create a config file that resembles `.py-gitback.conf.example <https://github.com/ryankanno/py-gitback/blob/master/.py-gitback.conf.example>`_
 2. Run the following command
+
 .. code:: bash
 
     py-gitback.py -r py-gitback
